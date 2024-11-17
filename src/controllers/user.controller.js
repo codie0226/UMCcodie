@@ -93,7 +93,7 @@ export const handleListMyMissions = async(req, res, next) => {
         parseInt(req.params.userId),
         typeof req.query.cursor === "string" ? parseInt(req.query.cursor): 0
     );
-    res.status(StatusCodes.OK).succss(missions);
+    res.status(StatusCodes.OK).success(missions);
 };
 
 export const handleMissionSuccess = async(req, res, next) => {

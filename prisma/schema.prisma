@@ -13,6 +13,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model users{
+  id Int @id @default(autoincrement())
+  username String @db.VarChar(20)
+  password String @db.VarChar(20)
+  gender Int @db.TinyInt
+  birth_date DateTime @db.Date
+  address String @db.VarChar(20)
+  preferred_food Int @db.Int
+  my_mission Int @db.Int
+  phone_num String @db.VarChar(20)
+  phone_verify Int @db.TinyInt
+  email String @db.VarChar(30)
+  points Int @db.Int
+}
+
 model shops{
   area_id Int 
   shop_name String @db.VarChar(20)

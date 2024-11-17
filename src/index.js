@@ -44,17 +44,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((err, req, res, next) => {     //에러 처리 미들웨어
-  if(res.headersSent){                 //응답에서 http 헤더가 존재하면
-    return next(err);                  //에러처리로 넘어감
-  }
 
-  res.status(err.statusCode || 500).error({
-    errorCode: err.errorCode || "unknown",      //errorCode가 존재하면 반환. 없으면 unknown 반환
-    reason: err.reason || err.message || null, //err.reason가 존재하면 반환. 없으면 err.message 반환. 이마저도 없으면 null반환
-    data: err.data || null,                     //err.data가 존재하면 반환. 없으면 null 반환
-  });
-});
 
 app.post("/home/users/signup", handleUserSignUp);  //controllers/user.controller.js의 handleUserSignUp 호출
 
@@ -75,6 +65,18 @@ app.get("/shops/:shopId/missions", handleListShopMissions);
 app.get("/home/users/:userId/myMissions", handleListMyMissions);
 
 app.patch("/home/users/:userId/:missionId/success", handleMissionSuccess);
+
+app.use((err, req, res, next) => {     //에러 처리 미들웨어
+  if(res.headersSent){                 //응답에서 http 헤더가 존재하면
+    return next(err);                  //에러처리로 넘어감
+  }
+
+  res.status(err.statusCode || 500).error({
+    errorCode: err.errorCode || "unknown",      //errorCode가 존재하면 반환. 없으면 unknown 반환
+    reason: err.reason || err.message || null, //err.reason가 존재하면 반환. 없으면 err.message 반환. 이마저도 없으면 null반환
+    data: err.data || null,                     //err.data가 존재하면 반환. 없으면 null 반환
+  });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

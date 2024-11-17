@@ -133,12 +133,26 @@ export const setPreference = async (userId, foodCategoryId) => {
   };
 
   export const addReview = async(data) => { 
+    const isExistShop = await prisma.shops.findFirst({
+      where: {id : data.shop_id}
+    });
+    if(isExistShop === null){
+      return null;
+    }
     const created = await prisma.reviews.create({data: data});
 
     return created.id;
   }
 
   export const addMission = async(data) => {
+    const isExistShop = await prisma.shops.findFirst({
+      where: {id : data.shop_id}
+    });
+
+    if(isExistShop === null){
+      return null;
+    }
+
     const created = await prisma.missions.create({data: data});
 
     return created.id;
@@ -153,13 +167,22 @@ export const setPreference = async (userId, foodCategoryId) => {
       }
     });
     if(isExistMission != null){
+      console.log("미션이 이미 존재합니다.");
       return null;
     }
-
+    console.log("미션이 존재하지 않습니다.");
     const created = await prisma.user_missions.create({data: data});
   }
 
   export const getAllStoreReviews = async(shopId, cursor) => {
+    const isExistShop = await prisma.shops.findFirst({
+      where: {id : shopId}
+    });
+
+    if(isExistShop === null){
+      return null;
+    }
+
     const reviews = await prisma.reviews.findMany({
       select: {
         id: true,
@@ -177,6 +200,16 @@ export const setPreference = async (userId, foodCategoryId) => {
   }
 
   export const getMyReviews = async(userId, cursor) => {
+    const isExistUser = await prisma.users.findFirst({
+      where: {
+        id: userId
+      }
+    });
+
+    if(isExistUser === null){
+      return null;
+    }
+
     const reviews = await prisma.reviews.findMany({
       select: {
         id: true,
@@ -194,6 +227,14 @@ export const setPreference = async (userId, foodCategoryId) => {
   }
 
   export const getStoreMissions = async(shopId, cursor) => {
+    const isExistShop = await prisma.shops.findFirst({
+      where: {id : shopId}
+    });
+
+    if(isExistShop === null){
+      return null;
+    }
+
     const missions = await prisma.missions.findMany({
       select: {
         id: true,
@@ -211,6 +252,16 @@ export const setPreference = async (userId, foodCategoryId) => {
   }
 
   export const getMyMissions = async(userId, cursor) => {
+    const isExistUser = await prisma.users.findFirst({
+      where: {
+        id: userId
+      }
+    });
+
+    if(isExistUser === null){
+      return null;
+    }
+
     const missions = await prisma.user_missions.findMany({
       select: {
           id: true,
@@ -232,6 +283,11 @@ export const setPreference = async (userId, foodCategoryId) => {
     const mid = await prisma.user_missions.findFirst({
       where: {user_id: userId, mission_id: missionId},
     });
+
+    if(mid === null){
+      return null;
+    }
+
     const mission = await prisma.user_missions.update({
       where: {id: mid.id},
       data: {
