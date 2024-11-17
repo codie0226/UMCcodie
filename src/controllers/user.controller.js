@@ -32,7 +32,7 @@ export const handleShopAdd = async (req, res, next) => {
     console.log("body: ", req.body);
 
     const newShop = await shopToArea(bodyToShop(req.body));
-    res.status(StatusCodes.OK).json({result: newShop});
+    res.status(StatusCodes.OK).success(newShop);
 }
 
 export const handleShopReview = async (req, res, next) => {
@@ -40,7 +40,7 @@ export const handleShopReview = async (req, res, next) => {
     console.log("body: ", req.body);
 
     const newReview = await reviewToShop(bodyToReview(req.body));
-    res.status(StatusCodes.OK).json({result: newReview});
+    res.status(StatusCodes.OK).success(newReview);
 }
 
 export const handleNewMission = async (req, res, next) => {
@@ -48,7 +48,7 @@ export const handleNewMission = async (req, res, next) => {
     console.log("body: ", req.body);
 
     const newMission = await missionToShop(bodyToMission(req.body));
-    res.status(StatusCodes.OK).json({result: newMission});
+    res.status(StatusCodes.OK).success(newMission);
 }
 
 export const handleMissionAccept = async (req, res, next) => {
@@ -56,7 +56,7 @@ export const handleMissionAccept = async (req, res, next) => {
     console.log("body: ", req.body);
 
     const missionAcception = await missionAccept(req.body);
-    res.status(StatusCodes.OK).json({result: missionAcception});
+    res.status(StatusCodes.OK).success(missionAcception);
 }
 
 export const handleListShopReviews = async(req, res, next) => {
@@ -66,7 +66,7 @@ export const handleListShopReviews = async(req, res, next) => {
         parseInt(req.params.shopId),
         typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0   //cursor값이 없으면 0으로 설정
     );
-    res.status(StatusCodes.OK).json({reviews});
+    res.status(StatusCodes.OK).success(reviews);
 };
 
 export const handleListMyReviews = async(req, res, next) => {
@@ -75,7 +75,7 @@ export const handleListMyReviews = async(req, res, next) => {
         parseInt(req.params.userId),
         typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0
     );
-    res.status(StatusCodes.OK).json({reviews});
+    res.status(StatusCodes.OK).success(reviews);
 };
 
 export const handleListShopMissions = async(req, res, next) => {
@@ -84,7 +84,7 @@ export const handleListShopMissions = async(req, res, next) => {
         parseInt(req.params.shopId),
         typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0
     );
-    res.status(StatusCodes.OK).json({missions});
+    res.status(StatusCodes.OK).success(missions);
 };
 
 export const handleListMyMissions = async(req, res, next) => {
@@ -93,7 +93,7 @@ export const handleListMyMissions = async(req, res, next) => {
         parseInt(req.params.userId),
         typeof req.query.cursor === "string" ? parseInt(req.query.cursor): 0
     );
-    res.status(StatusCodes.OK).json({missions});
+    res.status(StatusCodes.OK).succss(missions);
 };
 
 export const handleMissionSuccess = async(req, res, next) => {
@@ -103,5 +103,5 @@ export const handleMissionSuccess = async(req, res, next) => {
         parseInt(req.params.missionId)
     );
 
-    res.status(StatusCodes.OK).send("성공적으로 완수되었습니다.");
+    res.status(StatusCodes.OK).success(mission);
 }

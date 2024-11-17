@@ -19,6 +19,9 @@ import {
     getMyMissions,
     completeMission
 } from "../repositories/user.repository.js";
+import{
+    NoShopDataError
+} from "../error.js"
 
 export const userSignUp = async(data)=>{   //실제로 회원가입을 위한 함수
     const joinUserId = await addUser({
@@ -63,9 +66,7 @@ export const reviewToShop = async(data) => {
     });
 
     if(newReviewId === null){
-        throw new Error(
-            '상점이 존재하지 않습니다.'
-        );
+        throw new NoShopDataError("상점을 찾을 수 없습니다.", data);
     }
 
     return {content: data.content, rating: data.rating};
