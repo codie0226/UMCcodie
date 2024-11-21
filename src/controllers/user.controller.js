@@ -28,6 +28,38 @@ export const handleUserSignUp = async (req, res, next) => {
 }
 
 export const handleShopAdd = async (req, res, next) => {
+    /*
+    #swagger.summary = "상점 추가 API";
+    #swagger.requestBody = {
+        required: true,
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        area_id: {type: "integer"},
+                        shop_name: {type: "string"}
+                    }
+                }
+            }
+        }
+    }
+    #swagger.responses[200] = {
+        description: "상점 추가 성공 응답",
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        area_id: {type: "integer"},
+                        shop_name: {type: "string"}
+                    }
+                }
+            }
+        }
+    }
+
+    */
     console.log("가게 추가하기를 요청했습니다.");
     console.log("body: ", req.body);
 
