@@ -60,3 +60,12 @@ model user_missions{
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+model Session{
+  id String @id
+  sid String @unique
+  data String @db.VarChar(512)
+  expiresAt DateTime @map("expires_at")
+
+  @@map("session")
+}
