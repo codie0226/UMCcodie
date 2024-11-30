@@ -1,16 +1,16 @@
 //요청을 받을 때 넘어온 req.body를 dto로 변환
 export const bodyToUser = (body) => {
-    const birth = new Date(body.birth);
+    const birth_date = new Date(body.birth_date);
 
     return{
         email: body.email,
-        name: body.name,
+        password: body.password,
+        username: body.username,
         gender: body.gender,
-        birth,
+        birth_date,
         address: body.address || "",
-        detailAddress: body.detailAddress || "",
-        phoneNumber: body.phoneNumber,
-        preferences: body.preferences,
+        phone_num: body.phone_num,
+        preferred_food: body.preferred_food
     };
 };
 

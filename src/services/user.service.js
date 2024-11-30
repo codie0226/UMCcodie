@@ -17,7 +17,8 @@ import {
     getMyReviews,
     getStoreMissions,
     getMyMissions,
-    completeMission
+    completeMission,
+    userManip
 } from "../repositories/user.repository.js";
 import{
     NoShopDataError,
@@ -166,4 +167,14 @@ export const successMission = async(userId, missionId) => {
     if(mission === null){
         throw new WrongMissionHandle("수락 처리할 미션 또는 유저가 없습니다.", userId);
     }
+}
+
+export const userInfo = async(userInfo) => {
+    const user = await userManip(userInfo);
+
+    if(user === null){
+        throw new NoUserError("정보를 수정할 유저가 없습니다.", userInfo.username);
+    }
+
+    return user;
 }

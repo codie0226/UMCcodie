@@ -295,3 +295,34 @@ export const setPreference = async (userId, foodCategoryId) => {
       },
     })
   }
+
+  export const userManip = async(userInfo) => {
+    const isExistUser = await prisma.users.findFirst({
+      where: {
+        username: userInfo.username
+      }
+    });
+
+    if(isExistUser === null){
+      return null;
+    }
+
+    const id = isExistUser.id;
+
+    const updatedUser = await prisma.users.update({
+      where:{
+        id
+      },
+      data: {
+        password: userInfo.password,
+        gender: userInfo.gender,
+        address: userInfo.address,
+        phone_num: userInfo.phone_num,
+        preferred_food: userInfo.preferred_food,
+        password: userInfo.password,
+        birth_date: userInfo.birth_date
+      }
+    })
+
+    return updatedUser;
+  }

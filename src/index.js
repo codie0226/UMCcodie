@@ -6,7 +6,7 @@ import swaggerUiExpress from "swagger-ui-express";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import session from "express-session";
 import passport from "passport";
-import { googleStrategy } from "./auth.config.js";
+import { googleStrategy, kakaoStrategy } from "./auth.config.js";
 import { prisma } from "./db.config.js";
 import {
   handleUserSignUp,
@@ -18,13 +18,15 @@ import {
   handleListMyReviews,
   handleListShopMissions,
   handleListMyMissions,
-  handleMissionSuccess
+  handleMissionSuccess,
+  handleUserInfo
 } from "./controllers/user.controller.js";
 
 dotenv.config();
 
 //passport 세팅
 passport.use(googleStrategy);
+passport.use(kakaoStrategy);
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
@@ -120,6 +122,17 @@ app.get(
   (req, res) => res.redirect("/")
 );
 
+//kakao 로그인
+app.get("/oauth2/login/kakao", passport.authenticate("kakao"));
+app.get(
+  "/oauth2/callback/kakao",
+  passport.authenticate("kakao", {
+    failureRedirect: "/oauth2/login/kakao",
+    failureMessage: true,
+  }),
+  (req, res) => res.redirect("/")
+);
+
 app.get("/", (req, res) => {
   //#swagger.ignore = true
   console.log(req.user);
@@ -145,6 +158,8 @@ app.get("/shops/:shopId/missions", handleListShopMissions);
 app.get("/home/users/:userId/myMissions", handleListMyMissions);
 
 app.patch("/home/users/:userId/:missionId/success", handleMissionSuccess);
+
+app.patch("/home/users/editInfo", handleUserInfo);
 
 app.use((err, req, res, next) => {     //에러 처리 미들웨어
   if(res.headersSent){                 //응답에서 http 헤더가 존재하면

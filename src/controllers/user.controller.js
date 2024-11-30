@@ -15,7 +15,8 @@ import {
     listMyReviews,
     listShopMissions,
     listMyMissions,
-    successMission
+    successMission,
+    userInfo
 } from "../services/user.service.js";
 
 
@@ -657,4 +658,69 @@ export const handleMissionSuccess = async(req, res, next) => {
     );
 
     res.status(StatusCodes.OK).success(mission);
+}
+
+export const handleUserInfo = async(req, res, next) => {
+    /*
+    #swagger.summary = "유저 정보 수정 API";
+    #swagger.requestBody = {
+        required: true,
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        username: {type: "string"},
+                        password: {type: "string"},
+                        gender: {type: "integer"},
+                        address: {type: "string"},
+                        preferred_food: {type: "integer"},
+                        phone_num: {type: "string"},
+                    }
+                }
+            }
+        }
+    };
+    #swagger.responses[200] = {
+        description: "유저 정보 수정 성공 응답",
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        resultType: {type: "string", example: "SUCCESS"},
+                        error: {type: "object", nullable: true, example: null},
+                        success: {
+                            type: "object", nullable: true, example: null
+                        }
+                    }
+                }
+            }
+        }
+    };
+    #swagger.responses[400] = {
+        description: "유저 정보 수정 실패 응답",
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        resultType: {type: "string", example: "FAIL"},
+                        error: {
+                            type: "object",
+                            properties: {
+                                errorCode: {type: "string", example: "U001"},
+                                reason: {type: "string" example: "정보를 수정할 유저가 없습니다."},
+                                data: {type: "object"}
+                            }
+                        },
+                        success: {type: "object", nullable: true, example: null}
+                    }
+                }
+            }
+        }
+    };
+    */
+    const user = await userInfo(bodyToUser(req.body));
+    res.status(StatusCodes.OK).success(user);
 }
